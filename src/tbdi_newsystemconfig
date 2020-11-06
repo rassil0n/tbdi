@@ -1,0 +1,35 @@
+#!/bin/sh
+
+selname(){
+	TBDI_USERNAME=$(dialog --inputbox\
+		"Please enter a name for the user account." 10 60 3>&1 1>&2 2>&3 3>&1) || exit
+
+	# loop until the username is valid
+	while ! echo "$TBDI_USERNAME" | grep -q "^[a-z_][a-z0-9_-]*$"; do
+		TBDI_USERNAME=$(dialog --no-cancel --inputbox\
+			"Username not valid. Give a username beginning with a letter, with only lowercase letters, - or _." 10 60 3>&1 1>&2 2>&3 3>&1)
+	done
+
+}
+
+selhostname(){
+	TBDI_HOSTNAME=$(dialog --inputbox\
+		"Please enter a hostname for the system" 10 60 3>&1 1>&2 2>&3 3>&1) || exit
+
+	# loop until the hostname is valid
+	while ! echo "$TBDI_HOSTNAME" | grep -q "^[a-z_][a-z0-9_-]*$"; do
+		TBDI_HOSTNAME=$(dialog --no-cancel --inputbox\
+			"Hostname not valid. Give a hostname beginning with a letter, with only lowercase letters, - or _." 10 60 3>&1 1>&2 2>&3 3>&1)
+	done
+}
+
+packsel(){
+	cd newsystem-data/src/installgroups/
+	options=$(for i in $(ls); do echo "$i \"\"";done)
+
+	cmd=(dialog --stdout --no-items\
+        --checklist "Select package groups:" 20 60 20)
+	TBDI_PACKAGES=$("${cmd[@]}" ${options})
+	cd ../../../
+
+}

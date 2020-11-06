@@ -1,0 +1,58 @@
+#!/bin/sh
+
+releasesel(){
+# define the release version of debian
+	RELOPTIONS=(stable "buster" testing "bullseye" unstable "sid")
+
+	TBDI_RELEASE=$(dialog --clear \
+                --title "Which Release?" \
+                --menu "\nChoose one of the following options:" \
+                11 40 4 \
+                "${RELOPTIONS[@]}" 2>&1 >/dev/tty)
+}
+
+archsel(){
+# define the system architecture
+	OPTIONS=(arm64 "" amd64 "" armel "" armhf "" i386 "" mips "" mips64el "" mipsel "" ppc64el "" s390x "")
+
+	TBDI_ARCH=$(dialog --clear \
+                --title "Which System-Architecture?" \
+                --menu "\nChoose one of the following options:" \
+                20 40 10 \
+                "${OPTIONS[@]}" 2>&1 >/dev/tty)
+}
+
+serversel(){
+# selecting the server for downloading the sources
+	SRVOPTIONS=(ftp.am.debian.org/debian "Armenia" ftp.au.debian.org/debian "Australia"
+		ftp.at.debian.org/debian "Austria" ftp.by.debian.org/debian "Belarus"
+		ftp.be.debian.org/debian "Belgium" ftp.br.debian.org/debian "Brazil"
+		ftp.bg.debian.org/debian "Bulgaria" ftp.ca.debian.org/debian "Canada"
+		ftp.cl.debian.org/debian "Chile" ftp2.cn.debian.org/debian "China"
+		ftp.cn.debian.org/debian "China" ftp.hr.debian.org/debian "Croatia"
+		ftp.cz.debian.org/debian "Czech Republic" ftp.dk.debian.org/debian "Denmark"
+		ftp.sv.debian.org/debian "El Salvador" ftp.ee.debian.org/debian "Estonia"
+		ftp.fr.debian.org/debian "France" ftp2.de.debian.org/debian "Germany"
+		ftp.de.debian.org/debian "Germany" ftp.gr.debian.org/debian "Greece"
+		ftp.hk.debian.org/debian "Hong Kong" ftp.hu.debian.org/debian "Hungary"
+		ftp.it.debian.org/debian "Italy" ftp.jp.debian.org/debian "Japan"
+		ftp.kr.debian.org/debian "Korea" ftp.lt.debian.org/debian "Lithuania"
+		ftp.mx.debian.org/debian "Mexico" ftp.md.debian.org/debian "Moldova"
+		ftp.nl.debian.org/debian "Netherlands" ftp.nc.debian.org/debian "New Caledonia"
+		ftp.nz.debian.org/debian "New Zealand" ftp.no.debian.org/debian "Norway"
+		ftp.pl.debian.org/debian "Poland" ftp.pt.debian.org/debian "Portugal"
+		ftp.ro.debian.org/debian "Romania" ftp.ru.debian.org/debian "Russia"
+		ftp.sk.debian.org/debian "Slovakia" ftp.si.debian.org/debian "Slovenia"
+		ftp.es.debian.org/debian "Spain" ftp.fi.debian.org/debian "Sweden"
+		ftp.se.debian.org/debian "Sweden" ftp.ch.debian.org/debian "Switzerland"
+		ftp.tw.debian.org/debian "Taiwan" ftp.tr.debian.org/debian "Turkey"
+		ftp.is.debian.org/debian "United Kingdom" ftp.uk.debian.org/debian "United Kingdom"
+		ftp.us.debian.org/debian "United States")
+
+	TBDI_SERVER=$(dialog --clear \
+                --title "Which Server?" \
+                --menu "Choose one of the following options:" \
+                60 60 46 \
+                "${SRVOPTIONS[@]}" \
+                2>&1 >/dev/tty)
+}

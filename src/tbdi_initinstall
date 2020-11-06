@@ -1,0 +1,41 @@
+#!/bin/bash
+
+installminimalsystem(){
+clear
+
+cat << EOF
+	Installing a minimal system via debootstrap
+	-------------------------------------------
+EOF
+	debootstrap --arch=${TBDI_ARCH} ${TBDI_RELEASE} /mnt http://${TBDI_SERVER}
+}
+
+generatefstab(){
+	./bin/genfstab -U /mnt > /mnt/etc/fstab
+}
+
+sethostname(){
+	echo ${TBDI_HOSTNAME} > /mnt/etc/hostname
+}
+
+mountpseudofilesystems(){
+	mount -o bind /proc /mnt/proc
+	mount -o bind /dev /mnt/dev
+	mount -o bind /dev/pts /mnt/dev/pts
+	mount -o bind /sys /mnt/sys
+}
+
+writesourceslist(){
+cat > /mnt/etc/apt/sources.list << EOF
+deb http://deb.debian.org/debian/ ${TBDI_RELEASE} main non-free contrib
+deb-src http://deb.debian.org/debian/ ${TBDI_RELEASE} main non-free contrib
+
+deb http://deb.debian.org/debian/ ${TBDI_RELEASE}-updates main contrib non-free
+deb-src http://deb.debian.org/debian/ ${TBDI_RELEASE}-updates main contrib non-free
+EOF
+}
+
+copydata(){
+	rm -rf /mnt${TBDI_INSTALLDIR} && mkdir /mnt${TBDI_INSTALLDIR}
+	cp -r newsystem-data/* /mnt${TBDI_INSTALLDIR}
+}

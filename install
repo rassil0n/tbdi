@@ -1,0 +1,111 @@
+#!/bin/bash
+
+initinstall(){
+
+	installminimalsystem
+	generatefstab
+	sethostname
+	mountpseudofilesystems
+	writesourceslist
+	copydata
+}
+
+newsysteminstall(){
+
+	installchroot
+	installuser
+}
+
+
+interactiveinstall(){
+
+# Importing the modules
+	for tbdi_modules in src/*; do
+		source ${tbdi_modules}
+	done
+
+# preinstall
+	checkdependencies
+	setvars
+
+# lets get the party started
+	intro		|| tbdi_exit "Aborted in Intro"
+
+# selection for debootstrap
+	releasesel	|| tbdi_exit "Aborted in releaseselction"
+	archsel 	|| tbdi_exit "Aborted in architectureselection"
+	serversel	|| tbdi_exit "Aborted in serverselection"
+
+# preparing for partitioning
+	devsel		|| tbdi_exit "Aborted in deviceselection"
+	bootsel 	|| tbdi_exit "Aborted in bootselection"
+	swapsel		|| tbdi_exit "Aborted in swapselection"
+
+# new system configuration
+	selname		|| tbdi_exit "Aborted in username"
+	selhostname	|| tbdi_exit "Aborted in hostname"
+	packsel		|| tbdi_exit "Aborted in packageselection"
+
+# sum everything up
+	summary 	|| tbdi_exit "Aborn in Sumary"
+
+# start with the partitioning
+	partintro	|| tbdi_exit "Aborted in partitionselection"
+	makeparts
+	mountparts
+
+# lets install
+	initinstall
+	newsysteminstall
+
+# final steps
+	finishing
+}
+
+customlayout(){
+
+cat << EOF
+
+	ATTENTION
+	---------
+
+	The function
+
+		>customlayout<
+
+	is currently not implemented. It will come soon, I hope...
+
+EOF
+	# TBDI_DEVICE="<CUSTOM>"; TBDI_SWAPSIZE="<CUSTOM>"
+
+	# checkdependencies
+	# setvars
+	# intro	|| tbdi_exit "Aborted in Intro"
+	# releasesel	|| tbdi_exit "Aborted in releaseselction"
+	# archsel 	|| tbdi_exit "Aborted in architectureselection"
+	# bootsel 	|| tbdi_exit "Aborted in bootselection"
+	# serversel	|| tbdi_exit "Aborted in serverselection"
+	# selname		|| tbdi_exit "Aborted in usernameselection"
+	# selhostname	|| tbdi_exit "Aborted in hostnameselection"
+	# packsel		|| tbdi_exit "Aborted in packageselection"
+	# summary 	|| tbdi_exit "Exited in Sumary"
+	# initinstall
+	# installchroot
+	# installuser
+	# finishing
+}
+
+main(){
+
+source src/tbdi_help
+
+	case $1 in
+		-c) 	customlayout ;;
+		-f)	printfolders ;;
+		-h) 	printhelp ;;
+		-s)	printstandardlayouts ;;
+		*)	interactiveinstall ;;
+	esac
+}
+
+main ${@}

@@ -1,0 +1,13 @@
+#!/bin/sh
+
+finishing(){
+	mkdir -p /mnt/mnt/usb{1,2,3}
+
+	FIRMWARE=http://cdimage.debian.org/cdimage/unofficial/non-free/firmware/${TBDI_RELEASE}/current/firmware.tar.gz
+	wget -O /mnt${TBDI_INSTALLDIR}/src/firmware.tar.gz ${FIRMWARE}
+	mkdir /mnt${TBDI_INSTALLDIR}/src/firmware && cd /mnt/${TBDI_INSTALLDIR}/src
+	tar -xf firmware.tar.gz -C firmware
+
+	umount -R /mnt
+	swapoff ${TBDI_DEVICE}1
+}

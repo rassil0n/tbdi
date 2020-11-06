@@ -1,0 +1,9 @@
+#!/bin/sh
+
+installchroot(){
+	chroot /mnt .${TBDI_INSTALLDIR}/bin/tbdi_chroot ${TBDI_BOOTOPT} ${TBDI_DEVICE} ${TBDI_INSTALLDIR} ${TBDI_PACKAGES}
+}
+
+installuser(){
+	chroot /mnt .${TBDI_INSTALLDIR}/bin/tbdi_user ${TBDI_USERNAME}
+}

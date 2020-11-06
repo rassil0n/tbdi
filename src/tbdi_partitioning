@@ -1,0 +1,102 @@
+#!/bin/sh
+
+makeparts(){
+source src/tbdi_diskformater
+clear
+cat << EOF
+	Starting formating ${TBDI_DEVICE}
+	---------------------------
+EOF
+# this part is for making the partitions
+# NOTICE: this can delete all of your data, so be careful
+	case $TBDI_BOOTOPT in
+		legacy)
+
+			case $TBDI_SWAPCHOICE in
+				yes)
+					makelegacyswap
+					mkswap -L SWAP ${TBDI_DEVICE}1
+					swapon ${TBDI_DEVICE}1
+					yes | mkfs.ext4 -L ROOT ${TBDI_DEVICE}2
+					yes | mkfs.ext4 -L HOME ${TBDI_DEVICE}3
+					;;
+
+				no)
+					makelegacynoswap
+					yes | mkfs.ext4 -L ROOT ${TBDI_DEVICE}1
+					yes | mkfs.ext4 -L HOME ${TBDI_DEVICE}2
+					;;
+			esac ;;
+
+		efi)
+
+			case $TBDI_SWAPCHOICE in
+				yes)
+					makeefiswap
+					mkswap -L SWAP ${TBDI_DEVICE}2
+					swapon ${TBDI_DEVICE}2
+					yes | mkfs.vfat -F 32 -n BOOT ${TBDI_DEVICE}1
+					yes | mkfs.ext4 -L ROOT ${TBDI_DEVICE}3
+					yes | mkfs.ext4 -L HOME ${TBDI_DEVICE}4
+					;;
+				no)
+					makeefinoswap
+					yes | mkfs.vfat -F 32 -n BOOT ${TBDI_DEVICE}1
+					yes | mkfs.ext4 -L ROOT ${TBDI_DEVICE}2
+					yes | mkfs.ext4 -L HOME ${TBDI_DEVICE}3
+					;;
+			esac ;;
+	esac
+	partprobe
+
+}
+
+mountparts(){
+	case $TBDI_BOOTOPT in
+		legacy)
+
+			case $TBDI_SWAPCHOICE in
+				yes)
+
+					mount ${TBDI_DEVICE}2 /mnt
+					mkdir -p /mnt/home
+					mount ${TBDI_DEVICE}3 /mnt/home
+					;;
+
+				no)
+					mount ${TBDI_DEVICE}1 /mnt
+					mkdir -p /mnt/home
+					mount ${TBDI_DEVICE}2 /mnt/home
+					;;
+			esac ;;
+
+		efi)
+
+			case $TBDI_SWAPCHOICE in
+				yes)
+					mount ${TBDI_DEVICE}3 /mnt
+					mkdir -p /mnt/home
+					mount ${TBDI_DEVICE}4 /mnt/home
+					;;
+				no)
+					mount ${TBDI_DEVICE}2 /mnt
+					mkdir -p /mnt/home
+					mount ${TBDI_DEVICE}3 /mnt/home
+					;;
+			esac
+
+			mkdir -p /mnt/boot
+			mount ${TBDI_DEVICE}1 /mnt/boot
+			;;
+	esac
+}
+
+partintro(){
+	dialog	--title "PARTINTRO"\
+		--yes-label "CONTINUE"\
+		--no-label "EXIT"\
+		--yesno "\
+		\nIn the following \n\n
+		Please consider that your \"root\"-partion will be 30G" 10 60
+
+}

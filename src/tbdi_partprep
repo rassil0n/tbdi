@@ -1,0 +1,46 @@
+#!/bin/sh
+
+devsel(){
+	let i=0 # define counting variable
+	W=() # define working array
+	while read -r line; do # process file by file
+	    let i=$i+1
+	    W+=("$line" $i)
+	done < <( lsblk -rpo "name,size" | tail -n +2 | grep "sd[a-z] ")
+
+	TBDI_DEVICE=$(dialog --title "Select the target hard drive"\
+		--menu "\nChose one" 15 40 17 "${W[@]}" 3>&2 2>&1 1>&3 | awk '{print $1}')
+}
+
+bootsel(){
+# define the boot option
+	BOOTOPTIONS=(legacy "BIOS-Boot" efi "UEFI-Boot")
+
+	TBDI_BOOTOPT=$(dialog --clear \
+                --title "Which Bootoption?" \
+                --menu "Choose one of the following options:" \
+                10 40 2 \
+                "${BOOTOPTIONS[@]}" \
+                2>&1 >/dev/tty)
+}
+
+swapsel(){
+# select swap or no swap
+	SWAPCH=(no "swap" yes "swap")
+	TBDI_SWAPCHOICE=$(dialog --clear \
+                --title "Generate Swappartiion?" \
+                --menu "Choose one of the following options:" \
+                10 40 2 \
+                "${SWAPCH[@]}" \
+                2>&1 >/dev/tty)
+
+# define the size for the swap
+	if [ "$TBDI_SWAPCHOICE" = "yes" ]; then
+		TBDI_SWAPSIZE=$(dialog --inputbox "Please enter the size for the swap Partition" 10 60 3>&1 1>&2 2>&3 3>&1) || exit
+
+		# loop until the size is valid
+		while ! echo "$TBDI_SWAPSIZE" | grep -q "^[1-9][0-9]*[MG]$"; do
+			TBDI_SWAPSIZE=$(dialog --no-cancel --inputbox "Size not valid. Give a beginning with a number and ending with either M or G." 10 60 3>&1 1>&2 2>&3 3>&1)
+		done
+	fi
+}

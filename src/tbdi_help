@@ -1,0 +1,88 @@
+#!/bin/bash
+printhelp(){
+# well, print help...
+cat << EOF
+	USAGE:
+		install 	(standardlayout)
+		install -c	(customlayout - partitoning and mount yourself)
+		install -f	(print folders which will be generated)
+		install -h	(print help)
+		install -s	(print standardlayouts)
+EOF
+}
+
+printstandardlayouts(){
+# print the four partitoning options
+cat << EOF
+
+ In the following you will see the four possible standardlayout for the partitoning:
+ -----------------------------------------------------------------------------------
+
+	- LEGACY OPTION
+				WITH SWAP
+		|-----------------------------------------------|
+		| /dev/sda1 --> SWAP (users choice)		|
+		| /dev/sda2 --> ROOT (30 GB)			|
+		| /dev/sda3 --> HOME (rest of harddrive size)	|
+		|-----------------------------------------------|
+
+				NO SWAP
+		|-----------------------------------------------|
+		| /dev/sda1 --> ROOT (30 GB)			|
+		| /dev/sda2 --> HOME (rest of harddrive size)	|
+		|-----------------------------------------------|
+
+	- UEFI OPTION
+				WITH SWAP
+		|-----------------------------------------------|
+		| /dev/sda1 --> BOOT (512 MB)			|
+		| /dev/sda2 --> SWAP (users choice)		|
+		| /dev/sda3 --> ROOT (30 GB)			|
+		| /dev/sda4 --> HOME (rest of harddrive size)	|
+		|-----------------------------------------------|
+
+				NO SWAP
+		|-----------------------------------------------|
+		| /dev/sda1 --> BOOT (512 MB)			|
+		| /dev/sda2 --> ROOT (30 GB)			|
+		| /dev/sda3 --> HOME (rest of harddrive size)	|
+		|-----------------------------------------------|
+EOF
+}
+
+printfolders(){
+cat << EOF
+
+ This folders will be generated with the script:
+ -----------------------------------------------
+
+ (place for all the tbdi-data)
+ -----------------------------
+	/tbdi
+	 |----- bin
+	 |----- src
+
+ (for mounting usbdevices over dmount)
+ -------------------------------------
+	/mnt
+	 |----- USB1
+	 |----- USB2
+	 |----- USB2
+
+ (home-directory)
+ ----------------
+	/home/<USER>
+		|------------ .config
+		|------------ .local
+		|		|----- bin
+		|		|----- opt
+		|		|----- repos
+		|		|----- share
+		|
+		|------------ 0temp
+		|------------ dl
+		|------------ dox
+		|------------ mm
+
+EOF
+}

@@ -1,0 +1,41 @@
+#!/bin/sh
+
+checkdependencies(){
+	for depends in dialog debootstrap; do
+		[ ! $(dpkg -s $depends &> /dev/null) ] && apt -y install $depends
+	done
+}
+
+setvars(){
+# setting the variables for the script
+	TBDI_INSTALLDIR=/tbdi
+	DOTFILES=https://github.com/fl0-1337/dots
+}
+
+tbdi_exit(){
+# general exit note
+	clear; printf "EXIT:\\n%s\\n" "$1"; exit;
+}
+
+intro(){
+# introduction and warning
+	dialog --colors --title "TBDI - Introduction"\
+		--yes-label "CONTINUE"\
+		--no-label "EXIT"\
+		--yesno\
+		"\nThis is a script to install Debian via debootstrap onto a harddrive\n\nPlease notice, that this script override everything, that is on the chosen harddrive\n\nSo please be careful ;)" 14 70
+}
+
+summary(){
+
+	dialog --title "SUMMARY" --yes-label "INSTALL" --no-label "ABORT" --yesno "\
+		\nRelease: $TBDI_RELEASE\n\
+		Architecture: $TBDI_ARCH\n\
+		Bootoption: $TBDI_BOOTOPT\n\
+		Server: $TBDI_SERVER\n\
+		Username: $TBDI_USERNAME\n\
+		Hostname: $TBDI_HOSTNAME\n\
+		Device: $TBDI_DEVICE\n\
+		Swapsize: $TBDI_SWAPSIZE\n\
+		Packages: $TBDI_PACKAGES" 0 0
+}
