@@ -52,7 +52,7 @@ cat << EOF
 	----------------------------
 
 EOF
-		apt install --no-install-recommends -y $(cat $pkgs) 1&> /dev/null
+		apt install --no-install-recommends -y $(cat $pkgs)
 	done
 
 	clear

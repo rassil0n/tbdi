@@ -7,6 +7,7 @@ finishing(){
 	wget -O /mnt${TBDI_INSTALLDIR}/src/firmware.tar.gz ${FIRMWARE}
 	mkdir /mnt${TBDI_INSTALLDIR}/src/firmware && cd /mnt/${TBDI_INSTALLDIR}/src
 	tar -xf firmware.tar.gz -C firmware
+	rm firmware.tar.gz
 
 	umount -R /mnt
 	swapoff ${TBDI_DEVICE}1
