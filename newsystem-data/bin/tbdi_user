@@ -19,6 +19,11 @@ EOF
 	passwd $USERNAME
 }
 
+config_mpd(){
+	gpasswd -a mpd users
+	gpasswd -a mpd audio
+}
+
 create_folders(){
 	su $USERNAME -c 'mkdir -p $HOME/{dl,temp,work,mm}'
 	su $USERNAME -c 'mkdir -p $HOME/mnt/cell{1,2}'
@@ -40,6 +45,7 @@ EOF
 
 main(){
 	create_user
+	config_mpd
 	create_folders
 	install_configs
 }

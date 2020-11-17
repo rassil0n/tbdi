@@ -5,7 +5,10 @@ cmus-plugin-ffmpeg
 feh
 ffmpeg
 imagemagick
+mpc
+mpd
 mpv
+ncmpcpp
 pulseaudio
 scrot
 sxiv
