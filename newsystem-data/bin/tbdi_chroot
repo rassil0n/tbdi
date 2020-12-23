@@ -58,11 +58,12 @@ EOF
 	clear
 cat << EOF
 
-	Installing python-module for neovim
-	-----------------------------------
+	Installing python-modules
+	-------------------------
 
 EOF
 	pip3 install neovim
+	pip3 install mpd-art-box
 }
 
 installgrub(){

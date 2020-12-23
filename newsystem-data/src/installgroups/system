@@ -2,6 +2,7 @@ acpi
 build-essential
 curl
 eject
+flameshot
 fzf
 git
 htop
