@@ -43,11 +43,23 @@ EOF
 	su $USERNAME -c 'sh $HOME/.local/bin/setwal'
 }
 
+setup_sshkey(){
+cat << EOF
+	Setup SSH-Key for ${USERNAME}
+	-----------------------------
+EOF
+
+echo -n "Please enter your email: "
+read USERMAIL
+su $USERNAME -c 'ssh-keygen -t ed25519 -C ""$USERMAIL""'
+}
+
 main(){
 	create_user
 	config_mpd
 	create_folders
 	install_configs
+	setup_sshkey
 }
 
 main ${@}
