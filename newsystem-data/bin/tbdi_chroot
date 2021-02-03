@@ -62,8 +62,9 @@ cat << EOF
 	-------------------------
 
 EOF
-	pip3 install neovim
+	pip3 install neovim unidecode
 	pip3 install mpd-art-box
+	pip3 install ueberzug
 }
 
 installgrub(){

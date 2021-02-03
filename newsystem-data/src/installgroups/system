@@ -11,6 +11,8 @@ npm
 ntp
 numlockx
 openjdk-11-jdk
+python-dev
+python3-dev
 python3-pip
 rsync
 tmux
@@ -22,5 +24,6 @@ xorg
 xsel
 zathura
 zathura-pdf-poppler
+zlib1g-dev
 zsh
 zsh-syntax-highlighting

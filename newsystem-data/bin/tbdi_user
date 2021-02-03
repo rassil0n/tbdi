@@ -38,7 +38,7 @@ cat << EOF
 	----------------------
 
 EOF
-	su $USERNAME -c 'cd $HOME/.local/repos && git clone https://github.com/fl0-1337/dots'
+	su $USERNAME -c 'cd $HOME/.local/repos && git clone https://github.com/rassil0n/dots'
 	su $USERNAME -c 'rsync -r $HOME/.local/repos/dots/ $HOME'
 	su $USERNAME -c 'sh $HOME/.local/bin/setwal'
 }
