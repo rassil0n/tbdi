@@ -117,6 +117,18 @@ EOF
 	done
 }
 
+installdoas(){
+	clear
+cat << EOF
+
+	Installing doas
+	---------------
+
+EOF
+	cd ${INSTALLDIR}/repos
+	git clone https://github.com/slicer69/doas && make && make clean install
+}
+
 installgtk(){
 	mkdir -p /usr/share/{themes,icons}
 	tar -xf ${INSTALLDIR}/src/gtk/nordic-icons.tar -C /usr/share/icons
@@ -144,6 +156,7 @@ main(){
 	groupinstall
 	installgrub
 	installsuckless
+	installdoas
 	installgtk
 	editsudoers
 }

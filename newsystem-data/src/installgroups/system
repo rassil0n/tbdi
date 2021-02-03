@@ -1,11 +1,14 @@
 acpi
+bison
 build-essential
 curl
 eject
 flameshot
+flex
 fzf
 git
 htop
+libpam0g-dev
 neovim
 npm
 ntp

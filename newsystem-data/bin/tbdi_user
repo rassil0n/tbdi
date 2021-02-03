@@ -54,12 +54,19 @@ read USERMAIL
 su $USERNAME -c 'ssh-keygen -t ed25519 -C ""$USERMAIL""'
 }
 
+init_doas(){
+cat >> /usr/local/etc/doas.conf << EOF
+permit $USERNAME as root
+EOF
+}
+
 main(){
 	create_user
 	config_mpd
 	create_folders
 	install_configs
 	setup_sshkey
+	init_doas
 }
 
 main ${@}
