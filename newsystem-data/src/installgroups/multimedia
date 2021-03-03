@@ -1,7 +1,5 @@
 alsa-utils
 alsa-tools
-cmus
-cmus-plugin-ffmpeg
 feh
 ffmpeg
 imagemagick
@@ -11,5 +9,6 @@ mpv
 ncmpcpp
 pulseaudio
 scrot
+sound-theme-freedesktop
 sxiv
 youtube-dl

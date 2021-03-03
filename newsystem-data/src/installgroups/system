@@ -1,6 +1,8 @@
 acpi
 bison
 build-essential
+calcurse
+cron
 curl
 eject
 flameshot
