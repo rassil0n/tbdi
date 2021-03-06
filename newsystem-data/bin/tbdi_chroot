@@ -112,9 +112,23 @@ cat << EOF
 	-----------------
 
 EOF
-		git clone https://github.com/fl0-1337/$repos
+		git clone https://github.com/rassil0n/$repos
 		cd $repos && make clean install && cd ..
 	done
+}
+
+installzoom(){
+	clear
+cat << EOF
+
+	Installing zoom
+	---------------
+	cd ${INSTALLDIR}
+	wget https://zoom.us/client/latest/zoom_amd64.deb
+	apt install ./zoom_amd64.deb
+
+EOF
+
 }
 
 installdoas(){
@@ -156,6 +170,7 @@ main(){
 	groupinstall
 	installgrub
 	installsuckless
+	installzoom
 	installdoas
 	installgtk
 	editsudoers
