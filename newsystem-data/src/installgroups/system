@@ -12,6 +12,7 @@ flex
 fzf
 git
 htop
+jq
 libpam0g-dev
 neovim
 npm
