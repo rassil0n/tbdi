@@ -1,5 +1,6 @@
 firefox-esr
 network-manager
+network-manager-gnome
 smbclient
 openssh-client
 openssh-server
