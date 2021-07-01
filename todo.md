@@ -1,2 +1,4 @@
-- [ ] brave-browser
+- [x] brave-browser
+- [ ] simple-mtpfs
+- [ ] lookatme
 - [ ] qtile

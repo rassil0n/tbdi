@@ -2,7 +2,7 @@
 
 The script will install a full config of Debian (stable, testing, unstable) via debootstrap on your machine.
 
-The configs come from [here](https://github.com/fl0-1337/dots).
+The configs come from [here](https://github.com/rassil0n/dots).
 
 I know the code is a quite a mess, but it works ;) I do my very best to optimize and clean the code.
 
