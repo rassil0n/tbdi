@@ -132,6 +132,23 @@ EOF
 
 }
 
+installsimplemtpfs(){
+	clear
+cat << EOF
+
+	Installing simple-mtpfs
+	-----------------------
+EOF
+	apt install dh-autoreconf libfuse-dev libmtp-dev -y
+	cd ${INSTALLDIR}/repos
+	git clone https://github.com/phatina/simple-mtpfs && cd simple-mtpfs
+	./autogen.sh
+	mkdir build && cd build
+	../configure
+	make
+	make install
+}
+
 installzoom(){
 	clear
 cat << EOF
@@ -154,7 +171,7 @@ cat << EOF
 
 EOF
 	cd ${INSTALLDIR}/repos
-	git clone https://github.com/slicer69/doas && make && make clean install
+	git clone https://github.com/slicer69/doas && cd doas && make && make clean install
 }
 
 installgtk(){
@@ -185,6 +202,7 @@ main(){
 	installgrub
 	installsuckless
 	installbrave
+	installsimplemtpfs
 	installzoom
 	installdoas
 	installgtk
